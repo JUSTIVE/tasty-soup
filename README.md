@@ -1,2 +1,2 @@
-# tasty-soup
+# typescript-soup
 pour typescript
