@@ -1,2 +1,2 @@
 # typescript-soup
-pour typescript
+Un dépôt pour etudier typescript
