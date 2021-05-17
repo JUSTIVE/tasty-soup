@@ -66,3 +66,16 @@ message()
 //This expression is not callable
 //Type 'String' has no call signatures
 ```
+
+## 예외 없는 실패
+
+지금까지 우리는 런타임 에러와 같은 것들에 대해 논의하였다. 이러한 것들은 예상치 못한 상황에서 언어가 어떻게 동작해야 하는지 ECMAScript 스펙에 명시적으로 지정되어있다. 예를 들어, 호출할 수 없는 것에 대해 호출하려고 할 때 에러를 던지게끔 명세되어 있다. 그것이 당연한 동작이라고 생각할 수 있지만, 객체에 존재하지 않는 속성에 대한 접근도 에러를 던져야 한다고 생각할 수도 있을 것이다. 그러나, Javascript는 undefined를 반환한다.
+
+```javascript
+const user = {
+  name :"Daniel",
+  age:26
+};
+
+user.location; // returns undefined
+```
