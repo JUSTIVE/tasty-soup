@@ -69,7 +69,7 @@ message()
 
 ## 예외 없는 실패
 
-지금까지 우리는 런타임 에러와 같은 것들에 대해 논의하였다. 이러한 것들은 예상치 못한 상황에서 언어가 어떻게 동작해야 하는지 ECMAScript 스펙에 명시적으로 지정되어있다. 예를 들어, 호출할 수 없는 것에 대해 호출하려고 할 때 에러를 던지게끔 명세되어 있다. 그것이 당연한 동작이라고 생각할 수 있지만, 객체에 존재하지 않는 속성에 대한 접근도 에러를 던져야 한다고 생각할 수도 있을 것이다. 그러나, Javascript는 undefined를 반환한다.
+지금까지 우리는 런타임 에러와 같은 것들에 대해 논의하였습니다. 이러한 것들은 예상치 못한 상황에서 언어가 어떻게 동작해야 하는지 ECMAScript 스펙에 명시적으로 지정되어있습니다. 예를 들어, 호출할 수 없는 것에 대해 호출하려고 할 때 에러를 던지게끔 명세되어 있습니다. 그것이 당연한 동작이라고 생각할 수 있지만, 객체에 존재하지 않는 속성에 대한 접근도 에러를 던져야 한다고 생각할 수도 있을 것이나, Javascript는 undefined를 반환합니다.
 
 ```javascript
 const user = {
@@ -78,4 +78,51 @@ const user = {
 };
 
 user.location; // returns undefined
+```
+
+궁극적으로, 정적 타입은 즉각적으로 경고를 발생하지 않는 유효한 자바스크립트 코드일지라도 우리의 코드에서 발생하는 시스템 에러에 대해 에러를 호출해줍니다. 타입스크립트에서, 다음의 코드는 location이 정의되지 않았다는 에러를 발생할 것이다.
+
+```typescript
+const user = {
+  name :"Daniel",
+  age:26
+};
+
+user.location;
+//^~~~~~~~~~~~ Property location does not exist on type '{ name: string; age:number; }'
+```
+
+가끔 이것은 표현의 자유를 제한할 수 있으나, 이 의도는 우리의 프로그램 안에서 본격적인 버그들을 잡기 위함입니다. 그리고 타입스크립트는 많은 버그들을 잡을 수 있습니다.
+
+예를 들어 오타나,
+
+```typescript
+const announcement = "Hello World";
+
+//얼마나 빨리 오타를 찾을 수 있나요?
+announcement.toLocaleLowerCase()
+announcement.toLocalLowerCase()
+```
+
+호출되지 않은 함수이나,
+
+```typescript
+function flipCoin(){
+  //Math.random을 의도했을 것입니다
+  return Math.random < 0.5
+  //^~~~~~~~~~~~~~~~~~~~~~
+  //Operator '<' cannot be applied to types '()=>number' and 'number'
+}
+```
+
+혹은 기본적인 논리 오류들
+
+```typescript
+const value = Math.random() < 0.5 ? 'a':'b';
+if(value!=='a'){
+  //...
+} else if(value ==='b'){
+  //unreachable
+  //This condition will always return 'false' since the types 'a' and 'b' have no overlap
+}
 ```
