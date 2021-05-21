@@ -126,3 +126,9 @@ if(value!=='a'){
   //This condition will always return 'false' since the types 'a' and 'b' have no overlap
 }
 ```
+
+## 도구를 위한 타입들
+
+타입스크립트는 우리가 코드에서 실수를 만드는 것을 방지할 수 있습니다. 이것은 좋습니다만, 타입스크립트는 이 뿐 아니라 이러한 실수들을 만들지 않게끔도 합니다.
+
+타입 검사기는 
